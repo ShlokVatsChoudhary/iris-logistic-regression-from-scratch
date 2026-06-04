@@ -1,0 +1,57 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# Environment variables
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+
+# Test/cache files
+.pytest_cache/
+.mypy_cache/
+.cache/
+
+# Logs
+*.log
+
+# Model files / large outputs
+*.pkl
+*.joblib
+*.h5
+*.keras
+*.pt
+*.pth
+
+# Dataset files, if downloaded locally
+data/raw/
+data/processed/
+
+# Output folders
+outputs/
+results/
+
+# Temporary files
+*.tmp
+*.bak
