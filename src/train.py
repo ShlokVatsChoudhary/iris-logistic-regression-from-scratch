@@ -17,7 +17,7 @@ print(y_test.shape)
 #initial global variables 
 W_ini = np.zeros(X_train_scaled.shape[1])
 b_ini = 0
-alpha = 0.01
+alpha = 0.1
 num_iters = 1000
 
 #running gradient descent to find best w
@@ -81,3 +81,13 @@ print(f"CV Error Rate: {error_rate * 100:.2f}%")
 print(f"CV Accuracy: {accuracy * 100:.2f}%")
 
 #error comes out to 0.00% in y_cv and y_cv_pred
+
+y_test_pred = predict_logistic(X_test_scaled, W_final, b_final)
+
+for actual, predicted in zip(y_test, y_test_pred):
+    print(f"actual={actual}, predicted={predicted}")
+
+test_accuracy = np.mean(y_test_pred == y_test)
+print(f"Test accuracy: {test_accuracy * 100:.2f}%")
+
+
