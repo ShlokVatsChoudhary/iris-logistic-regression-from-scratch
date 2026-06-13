@@ -4,6 +4,7 @@ import numpy as np
 import copy, math
 
 def sigmoid(Z):
+    Z = np.clip(Z, -500, 500)
     return 1/(1 + np.exp(-Z))
 
 def compute_cost(X,y,W,b):
@@ -13,6 +14,7 @@ def compute_cost(X,y,W,b):
     for i in range(0,m):
         z_i = np.dot(X[i],W) + b
         f_wb_i = sigmoid(z_i)
+        f_wb_i = np.clip(f_wb_i, epsilon, 1 - epsilon)
         cost += -y[i]*np.log(f_wb_i + epsilon) - (1 - y[i])*np.log(1 - f_wb_i + epsilon)
     cost = cost/m
     return cost
@@ -33,23 +35,28 @@ def compute_gradient_logistic(X,y,W,b):
     dj_dw = dj_dw/m
     return dj_dw, dj_db
 
-def gradient_descent(X,y,Wini,bini,num_iters,alpha):
-    j_history = []
-    w = copy.deepcopy(Wini) #deepcopy so that global w does not change
-    b = bini 
+def gradient_descent(X, y, Wini, bini, num_iters, alpha):
+    w = copy.deepcopy(Wini)
+    b = bini
 
-    for i in range(num_iters):
-        dj_dw, dj_db = compute_gradient_logistic(X,y,w,b)
-        w = w - alpha*dj_dw #shape of w annd dj_dw is same, so automatically it will pair 0-0,1,1,2-2,3-3. 
-        b = b - alpha*dj_db #scalar
+    initial_cost = compute_cost(X, y, w, b)
+    j_history = [initial_cost]
 
-        if i<100000:
-            j_history.append(compute_cost(X,y,w,b))
-        
-        if i%math.ceil(num_iters/10) == 0:
-            print(f"iteration: {i:4d} : cost {j_history[-1]}")
+    print(f"iteration: {0:4d} : cost {initial_cost}")
 
-    return w,b,j_history
+    for i in range(1, num_iters + 1):
+        dj_dw, dj_db = compute_gradient_logistic(X, y, w, b)
+
+        w = w - alpha * dj_dw
+        b = b - alpha * dj_db
+
+        current_cost = compute_cost(X, y, w, b)
+        j_history.append(current_cost)
+
+        if i % math.ceil(num_iters / 10) == 0:
+            print(f"iteration: {i:4d} : cost {current_cost}")
+
+    return w, b, j_history
 
 def predict_logistic(X,W,b):
     y_pred = np.zeros(X.shape[0],dtype=int)
@@ -61,3 +68,9 @@ def predict_logistic(X,W,b):
         else:
             y_pred[i] = 0
     return y_pred
+
+def iterations_to_target(j_history, target):
+    for i, cost in enumerate(j_history):
+        if cost < target:
+            return i
+    return None

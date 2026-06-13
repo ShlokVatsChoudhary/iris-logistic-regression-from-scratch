@@ -1,10 +1,10 @@
 import numpy as np
 
 #importing all the functions from preprocessing and model
-from model import gradient_descent, compute_gradient_logistic, compute_cost, sigmoid, predict_logistic 
+from model import gradient_descent, compute_gradient_logistic, compute_cost, sigmoid, predict_logistic, iterations_to_target
 
 #importing the testing, cross-validation and training data which we have already scaled in preprocessing
-from preprocessing import X_train, y_train, X_cv, y_cv, X_test, y_test, X_train_scaled, X_cv_scaled, X_test_scaled
+from experiment_1_data import X_train, y_train, X_cv, y_cv, X_test, y_test, X_train_scaled, X_cv_scaled, X_test_scaled
 
 #checking the shape of the array before running
 print(X_train_scaled.shape)
@@ -17,7 +17,7 @@ print(y_test.shape)
 #initial global variables 
 W_ini = np.zeros(X_train_scaled.shape[1])
 b_ini = 0
-alpha = 0.1
+alpha = 100
 num_iters = 1000
 
 #running gradient descent to find best w
@@ -30,33 +30,7 @@ W_final, b_final, j_history = gradient_descent(
     alpha
 )
 
-""" when alpha is 0.001 
-iteration:    0 : cost 0.6925626114644907
-iteration:  100 : cost 0.6380424954607259
-iteration:  200 : cost 0.5905712971150613
-iteration:  300 : cost 0.5491203473309815
-iteration:  400 : cost 0.5127872768074286
-iteration:  500 : cost 0.48079755923051476
-iteration:  600 : cost 0.45249578825834735
-iteration:  700 : cost 0.427332123333377
-iteration:  800 : cost 0.4048473737430978
-iteration:  900 : cost 0.38465865777330316"""
-
-"""when alpha is 0.01
-iteration:    0 : cost 0.6873199058530154
-iteration:  100 : cost 0.3644342603139031
-iteration:  200 : cost 0.24966790814883652
-iteration:  300 : cost 0.19184120101564103
-iteration:  400 : cost 0.15667751335378333
-iteration:  500 : cost 0.1328601897184151
-iteration:  600 : cost 0.11557812060365286
-iteration:  700 : cost 0.10242583101786086
-iteration:  800 : cost 0.09205994888743274
-iteration:  900 : cost 0.08366794841042488"""
-
-#Initial cost: 0.6925626114644907
-#Final cost: 0.3666198044712175
-#=> cost function is effectively decreasing
+print(iterations_to_target(j_history, 0.002))
 
 print("Final W:", W_final)
 print("Final b:", b_final)
