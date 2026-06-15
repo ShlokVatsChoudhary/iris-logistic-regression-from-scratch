@@ -31,3 +31,43 @@ X_cv, X_test, y_cv, y_test = train_test_split(X_temp, y_temp, test_size=0.5, ran
 x_train_scaled = Z_scale_normalization(X_train, z_scale_mean(X_train), z_scale_std(X_train))
 x_test_scaled = Z_scale_normalization(X_test, z_scale_mean(X_test), z_scale_std(X_test))
 x_cv_scaled = Z_scale_normalization(X_cv, z_scale_mean(X_cv), z_scale_std(X_cv))
+
+x = 0
+y = 0
+for i in range(y_binary.shape[0]):
+    if (y_binary[i] == 0):
+        x += 1
+    else:
+        y += 1
+print("0 = ", x)
+print("1 = ", y)
+
+x = 0
+y = 0
+for i in range(y_train.shape[0]):
+    if (y_train[i] == 0):
+        x += 1
+    else:
+        y += 1
+print("0 = ", x)
+print("1 = ", y)
+
+x = 0
+y = 0
+for i in range(y_cv.shape[0]):
+    if (y_cv[i] == 0):
+        x += 1
+    else:
+        y += 1
+print("0 = ", x)
+print("1 = ", y)
+
+x = 0
+y = 0
+for i in range(y_test.shape[0]):
+    if (y_test[i] == 0):
+        x += 1
+    else:
+        y += 1
+print("0 = ", x)
+print("1 = ", y)
