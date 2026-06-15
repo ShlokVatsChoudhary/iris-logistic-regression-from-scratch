@@ -4,14 +4,15 @@ import matplotlib.pyplot as plt
 #importing all the required functions
 from model import gradient_descent, predict_logistic, compute_cost
 from metrics import f1_score, recall_score, precision_score, manual_accuracy, confusion_matrix
+from visualization import plot_confusion_matrix, plot_binary_cross_entropy_cost
 
 #importing all the required variables 
 from experiment_2_data import X_test_scaled, y_test, X_cv_scaled, y_cv, X_train_scaled, y_train
 
 W_ini = np.zeros(X_train_scaled.shape[1]) #[0,0,0,0]
 b_ini = 0 #scalar 
-alpha = 0.01
-num_iters = 5000
+alpha = 0.03
+num_iters = 1000
 
 W_final, b_final, j_history = gradient_descent(
     X_train_scaled,
@@ -24,6 +25,7 @@ W_final, b_final, j_history = gradient_descent(
 print(W_final)
 print(b_final)
 
+plot_binary_cross_entropy_cost(j_history, "plots\experiment_2", "binary_cross_entropy_cost")
 #training the model:
 
 y_cv_pred = predict_logistic(X_cv_scaled,W_final,b_final)
@@ -62,3 +64,27 @@ print("Accuracy:", accuracy)
 print("Precision:", precision)
 print("Recall:", recall)
 print("F1 score:", f1)
+
+plot_confusion_matrix(TN,FP,FN,TP,class_names = ["Versicolor", "Virginica"],title = "Cross validation Confusion Matrix — Experiment 2",save_folder="plots\experiment_2", image_name= "crossValidation_confusionMatrix")
+
+y_test_pred = predict_logistic(X_test_scaled, W_final,b_final)
+
+TN, FP, FN, TP = confusion_matrix(y_test,y_test_pred)
+
+print("TN:", TN)
+print("FP:", FP)
+print("FN:", FN)
+print("TP:", TP)
+
+accuracy = manual_accuracy(TP,TN,y_cv)
+precision = precision_score(TP,FP)
+recall = recall_score(TP,FN)
+f1 = f1_score(precision, recall)
+
+print("Accuracy:", accuracy)
+print("Precision:", precision)
+print("Recall:", recall)
+print("F1 score:", f1)
+
+
+plot_confusion_matrix(TN,FP,FN,TP,class_names = ["Versicolor", "Virginica"],title = "Test Confusion Matrix — Experiment 2",save_folder="plots\experiment_2", image_name="test_confusionMatrix")
